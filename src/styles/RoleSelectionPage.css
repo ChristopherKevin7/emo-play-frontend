@@ -1,0 +1,453 @@
+/* Estilos para RoleSelectionPage */
+
+.role-selection-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.role-selection-wrapper {
+  display: flex;
+  flex: 1;
+  gap: 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===== LADO ESQUERDO ===== */
+.left-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 800px;
+}
+
+.left-content {
+  color: white;
+  text-align: left;
+  animation: slideInLeft 0.8s ease-out;
+}
+
+.project-title {
+  font-size: 84px;
+  font-weight: bold;
+  margin: 0 0 20px 0;
+  text-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+  letter-spacing: 2px;
+}
+
+.impact-phrase {
+  font-size: 28px;
+  margin: 0;
+  opacity: 0.95;
+  line-height: 1.4;
+  font-weight: 300;
+  max-width: 450px;
+}
+
+.decorative-element {
+  width: 100px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  margin-top: 30px;
+  border-radius: 3px;
+}
+
+/* ===== LADO DIREITO ===== */
+.right-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 800px;
+}
+
+.login-container {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 0;
+  width: 100%;
+  max-width: 550px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: slideInRight 0.8s ease-out;
+  overflow: hidden;
+}
+
+/* ===== ABAS ===== */
+.tabs-container {
+  display: flex;
+  border-bottom: 2px solid #e0e0e0;
+  background: #f5f5f5;
+}
+
+.tab {
+  flex: 1;
+  padding: 20px;
+  border: none;
+  background: transparent;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  color: #999;
+  transition: all 0.3s ease;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+}
+
+.tab:hover {
+  color: #667eea;
+  background: rgba(102, 126, 234, 0.05);
+}
+
+.tab.active {
+  color: #667eea;
+  border-bottom-color: #667eea;
+  background: rgba(102, 126, 234, 0.1);
+}
+
+/* ===== FORMULÁRIO ===== */
+.login-form {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  letter-spacing: 0.5px;
+}
+
+.form-group input {
+  padding: 14px 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 16px;
+  font-family: inherit;
+  transition: all 0.3s ease;
+  color: #333;
+}
+
+.form-group input::placeholder {
+  color: #bbb;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  background: rgba(102, 126, 234, 0.02);
+}
+
+.form-group input:disabled {
+  background: #f5f5f5;
+  color: #999;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.tab:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.login-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.login-btn:disabled:hover {
+  transform: none;
+}
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  margin: 20px;
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: 8px;
+  color: #856404;
+  animation: slideDown 0.3s ease-out;
+}
+
+.error-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.error-message p {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== BOTÃO DE ENTRAR ===== */
+.login-btn {
+  padding: 15px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  margin-top: 10px;
+}
+
+.login-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+
+.login-btn:active {
+  transform: translateY(0);
+}
+
+/* ===== RODAPÉ DO FORMULÁRIO ===== */
+.login-footer {
+  padding: 20px 40px;
+  margin: 0;
+  font-size: 14px;
+  color: #999;
+  text-align: center;
+  border-top: 1px solid #e0e0e0;
+  background: #f9f9f9;
+}
+
+/* ===== RODAPÉ DA PÁGINA ===== */
+.role-footer {
+  text-align: center;
+  padding: 30px 20px 10px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+  margin-top: auto;
+}
+
+.role-footer p {
+  margin: 0;
+}
+
+/* ===== ANIMAÇÕES ===== */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ===== RESPONSIVIDADE ===== */
+@media (max-width: 1024px) {
+  .role-selection-wrapper {
+    gap: 30px;
+  }
+
+  .project-title {
+    font-size: 48px;
+  }
+
+  .impact-phrase {
+    font-size: 22px;
+  }
+
+  .left-section,
+  .right-section {
+    min-height: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .role-selection-wrapper {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .left-section,
+  .right-section {
+    min-height: auto;
+  }
+
+  .left-content {
+    text-align: center;
+  }
+
+  .project-title {
+    font-size: 40px;
+  }
+
+  .impact-phrase {
+    font-size: 18px;
+    max-width: 100%;
+  }
+
+  .login-container {
+    max-width: 100%;
+  }
+
+  .tab {
+    padding: 16px;
+    font-size: 14px;
+  }
+
+  .login-form {
+    padding: 30px;
+  }
+
+  .login-footer {
+    padding: 15px 30px;
+  }
+}
+
+@media (max-width: 480px) {
+  .role-selection-page {
+    padding: 10px;
+  }
+
+  .role-selection-wrapper {
+    gap: 30px;
+  }
+
+  .project-title {
+    font-size: 32px;
+  }
+
+  .impact-phrase {
+    font-size: 16px;
+  }
+
+  .login-form {
+    padding: 20px;
+    gap: 15px;
+  }
+
+  .form-group input {
+    padding: 12px 14px;
+    font-size: 16px;
+  }
+
+  .login-btn {
+    padding: 13px;
+    font-size: 15px;
+  }
+
+  .tab {
+    padding: 14px;
+    font-size: 13px;
+  }
+}
+
+.role-btn:active {
+  transform: translateY(-1px);
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .role-title {
+    font-size: 36px;
+  }
+
+  .role-subtitle {
+    font-size: 16px;
+    margin-bottom: 40px;
+  }
+
+  .role-cards-container {
+    gap: 25px;
+  }
+
+  .role-card {
+    padding: 30px 20px;
+  }
+
+  .role-icon {
+    font-size: 60px;
+  }
+
+  .role-card h2 {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .role-page {
+    padding: 15px;
+  }
+
+  .role-title {
+    font-size: 28px;
+  }
+
+  .role-subtitle {
+    font-size: 14px;
+  }
+
+  .role-cards-container {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .role-card {
+    padding: 25px 15px;
+  }
+
+  .role-icon {
+    font-size: 50px;
+  }
+
+  .role-card h2 {
+    font-size: 20px;
+  }
+
+  .role-description {
+    font-size: 14px;
+  }
+
+  .role-btn {
+    padding: 12px 25px;
+    font-size: 16px;
+  }
+}

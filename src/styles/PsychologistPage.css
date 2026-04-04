@@ -1,0 +1,457 @@
+/* Estilos para PsychologistPage */
+
+.psychologist-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 20px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== HEADER ===== */
+.psychologist-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1400px;
+  margin: 0 auto 40px auto;
+  width: 100%;
+  padding: 0 20px;
+}
+
+.psychologist-header h1 {
+  font-size: 32px;
+  margin: 0;
+  font-weight: bold;
+  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+  flex: 1;
+  text-align: center;
+}
+
+.exit-btn {
+  background: rgba(255, 255, 255, 0.95);
+  color: #667eea;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.exit-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.psychologist-user-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 10px 16px;
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.user-avatar {
+  font-size: 24px;
+}
+
+.user-name {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* ===== CONTAINER ===== */
+.psychologist-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 350px 1fr;
+  gap: 30px;
+  padding: 0 20px;
+}
+
+/* ===== CHILDREN PANEL ===== */
+.children-panel {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  height: fit-content;
+  position: sticky;
+  top: 20px;
+}
+
+.children-panel h2 {
+  margin: 0 0 20px 0;
+  font-size: 22px;
+  color: #333;
+  font-weight: bold;
+}
+
+.children-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 12px;
+}
+
+.children-panel-header h2 {
+  margin: 0;
+  flex: 1;
+}
+
+.btn-add-child {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.btn-add-child:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.btn-add-child:active {
+  transform: translateY(0);
+}
+
+.children-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 45vh;
+}
+
+/* ===== CHILD CARD ===== */
+.child-card {
+  background: #f5f5f5;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  padding: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.child-card:hover {
+  background: #efefef;
+  border-color: #667eea;
+  transform: translateX(5px);
+}
+
+.child-card.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-color: #f5576c;
+  color: white;
+}
+
+.child-avatar {
+  font-size: 32px;
+  flex-shrink: 0;
+}
+
+.child-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.child-name {
+  font-weight: bold;
+  font-size: 15px;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.child-card.active .child-name {
+  color: white;
+}
+
+.child-email {
+  font-size: 12px;
+  color: #999;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.child-card.active .child-email {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.view-report-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.child-card.active .view-report-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.view-report-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+/* ===== REPORT PANEL ===== */
+.report-panel {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  color: #333;
+}
+
+.report-header {
+  margin-bottom: 30px;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 20px;
+}
+
+.report-header h2 {
+  margin: 0 0 12px 0;
+  font-size: 26px;
+  font-weight: bold;
+  color: #333;
+}
+
+.report-info {
+  display: flex;
+  gap: 20px;
+  font-size: 14px;
+  color: #999;
+}
+
+.report-panel .dashboard-content {
+  padding: 20px 0;
+}
+
+/* ===== Messages ===== */
+.loading-message,
+.error-message,
+.empty-message,
+.empty-report {
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 16px;
+  border-radius: 12px;
+  background: #f5f5f5;
+  color: #666;
+}
+
+.error-message {
+  background: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffc107;
+}
+
+.empty-report {
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===== SCROLLBAR ===== */
+.children-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.children-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.children-list::-webkit-scrollbar-thumb {
+  background: #667eea;
+  border-radius: 10px;
+}
+
+.children-list::-webkit-scrollbar-thumb:hover {
+  background: #764ba2;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .psychologist-container {
+    grid-template-columns: 1fr;
+  }
+
+  .children-panel {
+    position: static;
+    max-height: none;
+  }
+
+  .children-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    max-height: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .psychologist-header {
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+
+  .psychologist-header h1 {
+    font-size: 24px;
+    order: 2;
+    width: 100%;
+  }
+
+  .exit-btn {
+    font-size: 14px;
+    padding: 10px 16px;
+  }
+
+  .psychologist-user-section {
+    font-size: 14px;
+  }
+
+  .children-panel {
+    padding: 15px;
+  }
+
+  .child-card {
+    padding: 12px;
+  }
+
+  .view-report-btn {
+    padding: 6px 12px;
+    font-size: 11px;
+  }
+
+  .report-panel {
+    padding: 20px;
+  }
+
+  .report-header h2 {
+    font-size: 20px;
+  }
+
+  .report-info {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+  .psychologist-header {
+    flex-direction: column;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .psychologist-title {
+    font-size: 28px;
+  }
+
+  .logout-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .sessions-section {
+    padding: 20px;
+  }
+
+  .sessions-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .filter-controls {
+    width: 100%;
+  }
+
+  .filter-input {
+    flex: 1;
+  }
+
+  .session-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .session-stats {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .view-details-btn {
+    width: 100%;
+  }
+
+
+@media (max-width: 480px) {
+  .psychologist-page {
+    padding: 15px;
+  }
+
+  .psychologist-title {
+    font-size: 24px;
+  }
+
+  .sessions-section {
+    padding: 15px;
+  }
+
+  .sessions-title {
+    font-size: 22px;
+  }
+
+  .session-item {
+    padding: 15px;
+  }
+
+  .session-id {
+    font-size: 14px;
+  }
+
+  .session-meta {
+    font-size: 12px;
+  }
+
+  .session-stats {
+    gap: 10px;
+    font-size: 12px;
+  }
+
+  .new-session-btn {
+    padding: 10px 25px;
+    font-size: 14px;
+  }
+}

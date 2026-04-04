@@ -1,0 +1,594 @@
+/* Estilos para ChildTrailPage */
+
+.child-trail-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  color: white;
+}
+
+/* ===== HEADER ===== */
+.trail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto 50px auto;
+  width: 100%;
+  padding: 0 20px;
+}
+
+/* Botão Sair */
+.exit-btn {
+  background: rgba(255, 255, 255, 0.95);
+  color: #667eea;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.exit-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.exit-btn:active {
+  transform: scale(0.98);
+}
+
+/* Estatísticas do Header */
+.header-stats {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.score-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 10px 16px;
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.star {
+  font-size: 20px;
+}
+
+.score-value {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.user-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 10px 16px;
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.user-avatar {
+  font-size: 24px;
+}
+
+.user-name {
+  font-size: 16px;
+}
+
+/* ===== CONTEÚDO PRINCIPAL ===== */
+.trail-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Título da Trilha */
+.trail-title-section {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.trail-title {
+  font-size: 40px;
+  font-weight: bold;
+  margin: 0 0 12px 0;
+  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.trail-subtitle {
+  font-size: 18px;
+  margin: 0;
+  opacity: 0.9;
+}
+
+/* ===== TRILHA VERTICAL ===== */
+.trail-track {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  position: relative;
+}
+
+.phase-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  margin-bottom: 40px;
+}
+
+/* ===== CARD DA FASE ===== */
+.phase-card {
+  width: 420px;
+  max-width: 90vw;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border: 3px solid transparent;
+  color: #333;
+}
+
+.phase-card.clickable:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+}
+
+.phase-card.clickable:active {
+  transform: translateY(-5px);
+}
+
+/* Cores por tipo de fase */
+.phase-card.phase-identify {
+  border-color: #5ba3ff;
+  background: rgba(255, 255, 255, 0.98);
+}
+
+.phase-card.phase-identify:hover {
+  background: rgba(91, 163, 255, 0.08);
+}
+
+.phase-card.phase-express {
+  border-color: #4caf50;
+  background: rgba(255, 255, 255, 0.98);
+}
+
+.phase-card.phase-express:hover {
+  background: rgba(76, 175, 80, 0.08);
+}
+
+.phase-card.phase-future {
+  border-color: #ffc107;
+  background: rgba(255, 255, 255, 0.98);
+  opacity: 0.8;
+}
+
+.phase-card.phase-future:hover {
+  background: rgba(255, 193, 7, 0.08);
+}
+
+/* Locked state */
+.phase-card.locked {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Ícone da Fase */
+.phase-icon {
+  font-size: 56px;
+  margin-bottom: 16px;
+}
+
+/* Conteúdo da Fase */
+.phase-content {
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+.phase-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0 0 8px 0;
+  color: #333;
+}
+
+.phase-description {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+  opacity: 0.8;
+}
+
+/* Badge de Pontos */
+.points-badge {
+  font-size: 16px;
+  font-weight: bold;
+  color: #667eea;
+  margin: 12px 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Badge de Bloqueado */
+.lock-badge {
+  font-size: 24px;
+  margin-bottom: 12px;
+}
+
+.coming-soon {
+  font-size: 14px;
+  color: #ffc107;
+  font-weight: 600;
+  margin: 12px 0;
+}
+
+/* Botão Começar */
+.start-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #1a1a1a;
+  border: none;
+  padding: 12px 32px;
+  border-radius: 20px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.start-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+
+.start-btn:active {
+  transform: scale(0.98);
+}
+
+/* ===== LINHAS CONECTORAS ===== */
+.connector-line {
+  width: 4px;
+  height: 50px;
+  background: rgba(255, 255, 255, 0.5);
+  margin: 0;
+  border-radius: 2px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== RODAPÉ ===== */
+.trail-footer {
+  text-align: center;
+  padding: 30px 20px 10px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 16px;
+  margin-top: 40px;
+}
+
+.trail-footer p {
+  margin: 0;
+}
+
+/* ===== RESPONSIVIDADE ===== */
+@media (max-width: 1024px) {
+  .trail-header {
+    padding: 0 10px;
+  }
+
+  .header-stats {
+    gap: 20px;
+  }
+
+  .trail-title {
+    font-size: 36px;
+  }
+
+  .phase-card {
+    width: 380px;
+  }
+}
+
+@media (max-width: 768px) {
+  .trail-header {
+    margin-bottom: 40px;
+  }
+
+  .header-stats {
+    gap: 15px;
+    font-size: 16px;
+  }
+
+  .score-section,
+  .user-section {
+    padding: 10px 12px;
+  }
+
+  .score-value,
+  .user-name {
+    font-size: 16px;
+  }
+
+  .trail-title {
+    font-size: 32px;
+  }
+
+  .trail-subtitle {
+    font-size: 16px;
+  }
+
+  .phase-card {
+    width: 100%;
+    max-width: 350px;
+    padding: 25px;
+  }
+
+  .phase-icon {
+    font-size: 48px;
+  }
+
+  .phase-title {
+    font-size: 20px;
+  }
+
+  .connector-line {
+    height: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .trail-header {
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+  }
+
+  .exit-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .header-stats {
+    gap: 10px;
+    font-size: 14px;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .score-section,
+  .user-section {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+
+  .star,
+  .user-avatar {
+    font-size: 18px;
+  }
+
+  .trail-title-section {
+    margin-bottom: 40px;
+  }
+
+  .trail-title {
+    font-size: 28px;
+  }
+
+  .trail-subtitle {
+    font-size: 14px;
+  }
+
+  .phase-card {
+    width: 100%;
+    padding: 20px;
+    border-radius: 16px;
+  }
+
+  .phase-icon {
+    font-size: 40px;
+    margin-bottom: 12px;
+  }
+
+  .phase-title {
+    font-size: 18px;
+  }
+
+  .phase-description {
+    font-size: 13px;
+  }
+
+  .points-badge {
+    font-size: 14px;
+  }
+
+  .start-btn {
+    padding: 10px 24px;
+    font-size: 14px;
+  }
+
+  .phase-wrapper {
+    margin-bottom: 30px;
+  }
+
+  .connector-line {
+    height: 35px;
+  }
+
+  .trail-footer {
+    padding: 20px 10px 5px;
+    font-size: 14px;
+  }
+}
+
+.challenge-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.challenge-btn:active {
+  transform: translateY(-1px);
+}
+
+.tips-section {
+  background: rgba(255, 255, 255, 0.15);
+  padding: 25px;
+  border-radius: 15px;
+  margin-top: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.tips-title {
+  font-size: 20px;
+  margin: 0 0 15px 0;
+  font-weight: bold;
+}
+
+.tips-list {
+  text-align: left;
+  display: inline-block;
+  font-size: 16px;
+  line-height: 1.8;
+  opacity: 0.9;
+}
+
+.tips-list li {
+  margin: 8px 0;
+}
+
+.back-btn {
+  margin-top: 30px;
+  padding: 10px 25px;
+  font-size: 16px;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: bold;
+}
+
+.back-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.7);
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .trail-title {
+    font-size: 36px;
+  }
+
+  .trail-subtitle {
+    font-size: 16px;
+  }
+
+  .challenge-modes {
+    gap: 20px;
+  }
+
+  .challenge-card {
+    padding: 30px 20px;
+  }
+
+  .challenge-emoji {
+    font-size: 50px;
+  }
+
+  .challenge-card h2 {
+    font-size: 24px;
+  }
+
+  .tips-section {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .child-trail-page {
+    padding: 15px;
+  }
+
+  .trail-title {
+    font-size: 28px;
+  }
+
+  .trail-subtitle {
+    font-size: 14px;
+  }
+
+  .challenge-modes {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .challenge-card {
+    padding: 25px 15px;
+  }
+
+  .challenge-emoji {
+    font-size: 40px;
+  }
+
+  .challenge-card h2 {
+    font-size: 20px;
+  }
+
+  .challenge-description {
+    font-size: 14px;
+    min-height: auto;
+  }
+
+  .challenge-btn {
+    padding: 12px 25px;
+    font-size: 16px;
+  }
+
+  .tips-section {
+    padding: 15px;
+  }
+
+  .tips-title {
+    font-size: 18px;
+  }
+
+  .tips-list {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .back-btn {
+    padding: 8px 20px;
+    font-size: 14px;
+  }
+}

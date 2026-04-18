@@ -5,7 +5,6 @@ export const PsychologistDashboard = ({ sessionData }) => {
   const [metrics, setMetrics] = useState({
     hitRate: 0,
     avgResponseTime: 0,
-    avgConfidence: 0,
   });
 
   useEffect(() => {
@@ -20,14 +19,9 @@ export const PsychologistDashboard = ({ sessionData }) => {
       const totalResponseTime = results.reduce((acc, r) => acc + (r.responseTime || 0), 0);
       const avgResponseTime = totalResponseTime / results.length;
 
-      // Calcular Índice de Confiança Médio
-      const totalConfidence = results.reduce((acc, r) => acc + (r.modelConfidence || 0), 0);
-      const avgConfidence = totalConfidence / results.length;
-
       setMetrics({
         hitRate: hitRate.toFixed(2),
         avgResponseTime: avgResponseTime.toFixed(2),
-        avgConfidence: avgConfidence.toFixed(2),
       });
     }
   }, [sessionData]);
@@ -54,14 +48,6 @@ export const PsychologistDashboard = ({ sessionData }) => {
           <div className="metric-value">{metrics.avgResponseTime}ms</div>
           <p className="metric-description">
             Tempo médio decorrido entre a apresentação do estímulo e a captura da imagem
-          </p>
-        </div>
-
-        <div className="metric-card">
-          <h2>Índice de Confiança</h2>
-          <div className="metric-value">{metrics.avgConfidence}%</div>
-          <p className="metric-description">
-            Valor percentual médio retornado pelo modelo, indicando o grau de certeza da predição
           </p>
         </div>
       </div>

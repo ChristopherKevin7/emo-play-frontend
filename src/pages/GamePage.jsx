@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { EmotionChallenge } from '../components/EmotionChallenge';
+import { ExpressionGame } from '../components/ExpressionGame';
 import { useApp } from '../context/AppContext';
 import '../styles/GamePage.css';
 
@@ -25,13 +26,27 @@ export const GamePage = ({ mode }) => {
     return null;
   }
 
+  // Desafio 2 - Expressão: usa ExpressionGame com layout próprio
+  if (mode === 'express') {
+    return (
+      <ExpressionGame
+        level="easy"
+        onComplete={(result) => {
+          exitGame();
+          navigate('/child-trail');
+        }}
+      />
+    );
+  }
+
+  // Desafio 1 - Identificação: usa EmotionChallenge
   return (
     <div className="game-page">
       <div className="game-header">
         <button onClick={handleExit} className="exit-btn">
           ← Voltar
         </button>
-        <h1>Modo: {mode === 'identify' ? '👁️ Identificar' : '🎭 Fazer Emoção'}</h1>
+        <h1>Modo: 👁️ Identificar</h1>
         <div className="game-info">
           Pontos: {score}/{totalChallenges}
         </div>

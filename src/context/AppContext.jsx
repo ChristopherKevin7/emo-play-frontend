@@ -18,7 +18,6 @@ export const AppProvider = ({ children }) => {
   const [totalChallenges, setTotalChallenges] = useState(0);
   const [gameMode, setGameMode] = useState(null); // 'identify' ou 'express'
   const [responseTime, setResponseTime] = useState(null);
-  const [modelConfidence, setModelConfidence] = useState(null);
   const [detectedEmotion, setDetectedEmotion] = useState(null);
   const [sessionResults, setSessionResults] = useState([]);
 
@@ -119,15 +118,13 @@ export const AppProvider = ({ children }) => {
     });
     setResponseTime(null);
     setDetectedEmotion(null);
-    setModelConfidence(null);
   }, []);
 
-  const recordResponse = useCallback((detectedEmo, confidence) => {
+  const recordResponse = useCallback((detectedEmo) => {
     if (currentChallenge) {
       const responseTimeMs = Date.now() - currentChallenge.startTime;
       setResponseTime(responseTimeMs);
       setDetectedEmotion(detectedEmo);
-      setModelConfidence(confidence);
 
       const isCorrect = detectedEmo.toLowerCase() === currentChallenge.targetEmotion.toLowerCase();
       
@@ -143,7 +140,6 @@ export const AppProvider = ({ children }) => {
         detectedEmotion: detectedEmo,
         isCorrect,
         responseTime: responseTimeMs,
-        modelConfidence: confidence,
         timestamp: new Date().toISOString(),
       }]);
     }
@@ -165,7 +161,6 @@ export const AppProvider = ({ children }) => {
     setTotalChallenges(0);
     setGameMode(null);
     setResponseTime(null);
-    setModelConfidence(null);
     setDetectedEmotion(null);
     setSessionResults([]);
     setAuthError(null);
@@ -199,7 +194,6 @@ export const AppProvider = ({ children }) => {
 
     // Current response data
     responseTime,
-    modelConfidence,
     detectedEmotion,
 
     // Session history

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { PsychologistDashboard } from '../components/PsychologistDashboard';
+import { ChildMetricsReport } from '../components/ChildMetricsReport';
 import { AddChildDialog } from '../components/AddChildDialog';
 import { useApp } from '../context/AppContext';
-import { userService, psychologistService } from '../services';
+import { userService, metricsService } from '../services';
 import '../styles/PsychologistPage.css';
 
 export const PsychologistPage = () => {
@@ -40,18 +40,18 @@ export const PsychologistPage = () => {
     fetchChildren();
   }, []);
 
-  // Ao selecionar uma criança, buscar dados de relatório
+  // Ao selecionar uma criança, buscar dados de métricas
   const handleChildSelect = async (child) => {
     try {
       setSelectedChild(child);
       setLoading(true);
       
-      // Buscar relatório da criança
-      const report = await psychologistService.getChildReport(child.id);
-      setSelectedChildData(report);
+      // Buscar métricas da criança pelo endpoint /Metrics/child/{childId}
+      const metricsData = await metricsService.getChildMetrics(child.id);
+      setSelectedChildData(metricsData);
     } catch (err) {
-      console.error('Erro ao buscar relatório da criança:', err);
-      setError('Erro ao carregar relatório da criança');
+      console.error('Erro ao buscar métricas da criança:', err);
+      setError('Erro ao carregar métricas da criança');
     } finally {
       setLoading(false);
     }
@@ -141,7 +141,7 @@ export const PsychologistPage = () => {
               {error && !loading && <div className="error-message">⚠️ {error}</div>}
 
               {selectedChildData && !loading && (
-                <PsychologistDashboard sessionData={selectedChildData} />
+                <ChildMetricsReport metricsData={selectedChildData} childName={selectedChild.name} />
               )}
 
               {!loading && !selectedChildData && !error && (

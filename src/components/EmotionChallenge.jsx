@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useApp } from '../context/AppContext';
+import { gamesService } from '../services';
 import { WebcamCapture } from './WebcamCapture';
 import '../styles/EmotionChallenge.css';
 
@@ -38,7 +39,7 @@ const getFeedbackMessage = (percentage) => {
 };
 
 export const EmotionChallenge = ({ mode = 'identify' }) => {
-  const { score, totalChallenges, recordResponse } = useApp();
+  const { score, totalChallenges, recordResponse, loadChallenge, userData, sessionId, responseTime } = useApp();
   
   const [gameState, setGameState] = useState(mode === 'express' ? 'challenge' : 'levelSelect'); // levelSelect | challenge | phase-complete
   const [currentLevel, setCurrentLevel] = useState(mode === 'express' ? 'medium' : null);
@@ -50,6 +51,8 @@ export const EmotionChallenge = ({ mode = 'identify' }) => {
   const [isEvaluating, setIsEvaluating] = useState(false); // Flag para desabilitar cliques durante feedback
   const [phaseResults, setPhaseResults] = useState([]); // Array com resultados de cada pergunta
   const [isCapturing, setIsCapturing] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false); // Flag para evitar múltiplos envios
+  const phaseStartTimeRef = useRef(null);
 
   // Effect para iniciar desafio direto no modo express
   useEffect(() => {
@@ -57,6 +60,61 @@ export const EmotionChallenge = ({ mode = 'identify' }) => {
       startNewChallenge('medium', new Set());
     }
   }, []);
+
+  // Effect para registrar tempo de início da fase
+  useEffect(() => {
+    if (gameState === 'challenge' && currentLevel && phaseStartTimeRef.current === null) {
+      phaseStartTimeRef.current = Date.now();
+    }
+  }, [gameState, currentLevel]);
+
+  // Effect para enviar resultado quando fase é completada
+  useEffect(() => {
+    if (gameState === 'phase-complete' && phaseResults.length > 0 && !isSubmitting) {
+      submitPhaseResult();
+    }
+  }, [gameState]);
+
+  // Função para enviar o resultado da fase para o backend
+  const submitPhaseResult = async () => {
+    if (isSubmitting) return;
+    
+    setIsSubmitting(true);
+    
+    try {
+      const phaseEndTime = Date.now();
+      const correctCount = phaseResults.filter(r => r.isCorrect).length;
+      
+      const gameResultData = {
+        childId: userData?.id,
+        sessionId: sessionId || `session_${Date.now()}`,
+        phaseNumber: 1, // Sempre 1 para o Desafio 1 (Identificar)
+        gameMode: mode, // 'identify' ou 'express'
+        level: currentLevel, // 'easy', 'medium' ou 'hard'
+        results: phaseResults.map(result => ({
+          targetEmotion: result.target,
+          detectedEmotion: result.selected,
+          isCorrect: result.isCorrect,
+          responseTime: result.responseTime || 0,
+          timestamp: new Date().toISOString(),
+        })),
+        startTime: phaseStartTimeRef.current ? new Date(phaseStartTimeRef.current).toISOString() : new Date().toISOString(),
+        endTime: new Date(phaseEndTime).toISOString(),
+        totalScore: correctCount,
+        totalChallenges: phaseResults.length,
+      };
+
+      console.log('Enviando resultado da fase:', gameResultData);
+      
+      const response = await gamesService.submitGameResult(gameResultData);
+      
+      console.log('Fase enviada com sucesso:', response);
+    } catch (error) {
+      console.error('Erro ao enviar resultado da fase:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   // Função para carregar a imagem da emoção
   const loadEmotionImage = (level, emotion) => {
@@ -88,6 +146,9 @@ export const EmotionChallenge = ({ mode = 'identify' }) => {
     const randomEmotion = availableEmotions[Math.floor(Math.random() * availableEmotions.length)];
     setCurrentEmotion(randomEmotion.key);
     
+    // Carregar desafio no contexto com timestamp de início
+    loadChallenge(randomEmotion.key);
+    
     // Para modo identify, carrega a imagem. Para express, não precisa
     if (mode === 'identify') {
       loadEmotionImage(level, randomEmotion.key);
@@ -112,11 +173,15 @@ export const EmotionChallenge = ({ mode = 'identify' }) => {
     
     const isCorrect = selectedEmotion === currentEmotion;
     
-    // Adicionar resultado à fase
+    // Registrar resposta no contexto global
+    recordResponse(selectedEmotion);
+    
+    // Adicionar resultado à fase (usar responseTime do contexto ou calcular)
     setPhaseResults(prev => [...prev, {
       target: currentEmotion,
       selected: selectedEmotion,
       isCorrect,
+      responseTime: responseTime,
     }]);
 
     // Delay de 1 segundo antes de ir para próximo
@@ -139,11 +204,15 @@ export const EmotionChallenge = ({ mode = 'identify' }) => {
       // Por agora, simulamos como se acertou (você pode expandir isso depois)
       const isCorrect = true; // Isso deveria vir do backend
       
-      // Adicionar resultado à fase
+      // Registrar resposta no contexto global (simulado como se acertou)
+      recordResponse(currentEmotion);
+      
+      // Adicionar resultado à fase (com responseTime)
       setPhaseResults(prev => [...prev, {
         target: currentEmotion,
         selected: currentEmotion, // Simulado
         isCorrect,
+        responseTime: responseTime,
       }]);
 
       // Delay antes de próximo desafio

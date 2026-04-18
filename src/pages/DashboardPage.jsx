@@ -4,7 +4,7 @@ import { useGame } from '../context/GameContext';
 import '../styles/DashboardPage.css';
 
 export const DashboardPage = ({ onExit }) => {
-  const { score, totalChallenges, responseTime, modelConfidence } = useGame();
+  const { score, totalChallenges, responseTime } = useGame();
   const [sessionData, setSessionData] = useState(null);
 
   useEffect(() => {
@@ -16,10 +16,9 @@ export const DashboardPage = ({ onExit }) => {
         id: i,
         isCorrect: i < score,
         responseTime: responseTime || Math.random() * 5000,
-        modelConfidence: modelConfidence || Math.random() * 100,
       })),
     });
-  }, [score, totalChallenges, responseTime, modelConfidence]);
+  }, [score, totalChallenges, responseTime]);
 
   return (
     <div className="dashboard-page">

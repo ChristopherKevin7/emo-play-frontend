@@ -95,4 +95,20 @@ export const emotionService = {
       throw error;
     }
   },
+
+  // Analisar emoções em lote (Desafio 2 - Expressão)
+  batchAnalyzeEmotions: async (payload) => {
+    try {
+      const response = await httpClient.post(
+        '/emotions/batch-analyze',
+        payload,
+        true,
+        'application/json'
+      );
+      return response;
+    } catch (error) {
+      console.error('Erro ao analisar emoções em lote:', error);
+      throw error;
+    }
+  },
 };

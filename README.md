@@ -113,7 +113,7 @@ Edite variáveis CSS em `src/App.css`:
 
 ## 📄 Licença
 
-Este projeto é parte do trabalho de conclusão de curso em Ciência da Computação.
+Este projeto é parte do trabalho de conclusão de curso em Engenharia da Computação.
 
 ## 👨‍💻 Desenvolvimento
 

@@ -1,0 +1,332 @@
+.child-metrics-report {
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  min-height: 100vh;
+}
+
+.challenges-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  gap: 30px;
+}
+
+.challenge-metrics-card {
+  background-color: white;
+  border-radius: 8px;
+  padding: 25px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.challenge-metrics-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.challenge-metrics-card.disabled {
+  background-color: #f9f9f9;
+  border: 2px dashed #ddd;
+  opacity: 0.7;
+}
+
+.challenge-metrics-card h3 {
+  font-size: 20px;
+  color: #667eea;
+  margin: 0 0 20px 0;
+  border-bottom: 2px solid #667eea;
+  padding-bottom: 10px;
+}
+
+.no-data-message {
+  color: #999;
+  text-align: center;
+  padding: 30px 0;
+  font-size: 16px;
+  font-style: italic;
+}
+
+.metrics-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.metric-item {
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 6px;
+  text-align: center;
+  border-left: 4px solid #667eea;
+}
+
+.metric-label {
+  display: block;
+  font-size: 12px;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.metric-value {
+  display: block;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+.emotion-breakdown {
+  margin-top: 30px;
+}
+
+.emotion-breakdown h4 {
+  font-size: 16px;
+  color: #333;
+  margin: 0 0 15px 0;
+  text-transform: uppercase;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.emotion-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+}
+
+.emotion-item {
+  background-color: #fafafa;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+}
+
+.emotion-name {
+  font-weight: bold;
+  color: #667eea;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.emotion-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stat {
+  font-size: 12px;
+  color: #666;
+}
+
+.stat.accuracy {
+  font-weight: bold;
+  margin-top: 4px;
+}
+
+.stat.accuracy.perfect {
+  color: #2563EB;
+}
+
+.stat.accuracy.good {
+  color: #F59E0B;
+}
+
+.stat.accuracy.needs-work {
+  color: #7C3AED;
+}
+
+.progress-section {
+  margin-top: 30px;
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.progress-header h4 {
+  font-size: 16px;
+  color: #333;
+  margin: 0;
+  text-transform: uppercase;
+  flex: 1;
+}
+
+.tabs {
+  display: flex;
+  gap: 5px;
+  border-bottom: 2px solid #eee;
+}
+
+.tab-btn {
+  padding: 10px 20px;
+  background-color: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: #666;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.tab-btn:hover {
+  color: #333;
+}
+
+.tab-btn.active {
+  color: #667eea;
+  border-bottom-color: #667eea;
+}
+
+.progress-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.chart-tab-content {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+}
+
+.chart-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+}
+
+.progress-chart {
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  background-color: #fafafa;
+}
+
+.chart-point {
+  cursor: pointer;
+  transition: r 0.2s;
+}
+
+.chart-point:hover {
+  r: 8;
+}
+
+.chart-legend {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.legend-color {
+  width: 16px;
+  height: 16px;
+  border-radius: 3px;
+}
+
+.chart-no-data {
+  color: #999;
+  text-align: center;
+  padding: 30px;
+  font-size: 16px;
+  font-style: italic;
+}
+
+.progress-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background-color: #fafafa;
+  border-radius: 4px;
+  border-left: 4px solid #667eea;
+}
+
+.progress-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.progress-details .date {
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+}
+
+.progress-details .level {
+  font-size: 12px;
+  color: #999;
+  font-weight: normal;
+}
+
+.progress-item .accuracy {
+  font-size: 16px;
+  font-weight: bold;
+  color: #667eea;
+  margin-left: 15px;
+}
+
+.no-data {
+  text-align: center;
+  padding: 40px;
+  color: #999;
+  font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  .challenges-container {
+    grid-template-columns: 1fr;
+  }
+
+  .metrics-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .emotion-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .challenge-metrics-card {
+    padding: 15px;
+  }
+
+  .progress-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .tabs {
+    width: 100%;
+  }
+
+  .progress-chart {
+    max-width: 100%;
+    min-width: 280px;
+  }
+
+  .chart-legend {
+    gap: 10px;
+  }
+}

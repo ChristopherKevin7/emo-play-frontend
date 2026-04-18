@@ -9,7 +9,6 @@ export const GameProvider = ({ children }) => {
   const [totalChallenges, setTotalChallenges] = useState(0);
   const [gameMode, setGameMode] = useState(null); // 'identify' ou 'express'
   const [responseTime, setResponseTime] = useState(null);
-  const [modelConfidence, setModelConfidence] = useState(null);
   const [detectedEmotion, setDetectedEmotion] = useState(null);
 
   const startNewSession = useCallback(() => {
@@ -28,15 +27,13 @@ export const GameProvider = ({ children }) => {
     });
     setResponseTime(null);
     setDetectedEmotion(null);
-    setModelConfidence(null);
   }, []);
 
-  const recordResponse = useCallback((detectedEmo, confidence) => {
+  const recordResponse = useCallback((detectedEmo) => {
     if (currentChallenge) {
       const responseTimeMs = Date.now() - currentChallenge.startTime;
       setResponseTime(responseTimeMs);
       setDetectedEmotion(detectedEmo);
-      setModelConfidence(confidence);
 
       // Verifica se acertou
       if (detectedEmo.toLowerCase() === currentChallenge.targetEmotion.toLowerCase()) {
@@ -53,7 +50,6 @@ export const GameProvider = ({ children }) => {
     setTotalChallenges(0);
     setGameMode(null);
     setResponseTime(null);
-    setModelConfidence(null);
     setDetectedEmotion(null);
   }, []);
 
@@ -64,7 +60,6 @@ export const GameProvider = ({ children }) => {
     totalChallenges,
     gameMode,
     responseTime,
-    modelConfidence,
     detectedEmotion,
     startNewSession,
     loadChallenge,

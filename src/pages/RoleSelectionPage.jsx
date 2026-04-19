@@ -72,14 +72,14 @@ export const RoleSelectionPage = () => {
                 onClick={() => handleTabChange('child')}
                 disabled={authLoading}
               >
-                👧 Criança
+                <img src="/icons/ui/children.png" alt="" className="role-btn-icon" /> Criança
               </button>
               <button
                 className={`tab ${activeTab === 'psychologist' ? 'active' : ''}`}
                 onClick={() => handleTabChange('psychologist')}
                 disabled={authLoading}
               >
-                👨‍⚕️ Psicólogo
+                <img src="/icons/ui/psychologist.png" alt="" className="role-btn-icon" /> Psicólogo
               </button>
             </div>
 

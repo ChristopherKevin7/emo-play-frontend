@@ -65,11 +65,13 @@ export const ExpressionGame = ({ onComplete, level = 'easy' }) => {
   const [cameraActive, setCameraActive] = useState(false);
   const [phaseStartTime, setPhaseStartTime] = useState(null);
   const [flashActive, setFlashActive] = useState(false);
+  const challengeStartTimeRef = useRef(null); // Cronômetro por emoção individual
 
   // Inicializar webcam
   useEffect(() => {
     initializeCamera();
     setPhaseStartTime(Date.now());
+    challengeStartTimeRef.current = Date.now();
     return () => {
       if (streamRef.current) {
         streamRef.current.getTracks().forEach(track => track.stop());
@@ -140,11 +142,13 @@ export const ExpressionGame = ({ onComplete, level = 'easy' }) => {
 
       // Armazenar attempt com múltiplas imagens
       const currentEmotion = EMOTIONS[currentEmotionIndex];
+      const elapsed = challengeStartTimeRef.current ? Date.now() - challengeStartTimeRef.current : 0;
       const newAttempts = [
         ...capturedAttempts,
         {
           targetEmotion: currentEmotion.name,
           images: frames,
+          responseTime: elapsed,
         },
       ];
       setCapturedAttempts(newAttempts);
@@ -154,6 +158,7 @@ export const ExpressionGame = ({ onComplete, level = 'easy' }) => {
         await submitExpressionResults(newAttempts);
       } else {
         setCurrentEmotionIndex((prev) => prev + 1);
+        challengeStartTimeRef.current = Date.now(); // Reinicia cronômetro para próxima emoção
       }
     } catch (err) {
       setError('Erro ao capturar imagens. Tente novamente.');
@@ -174,12 +179,13 @@ export const ExpressionGame = ({ onComplete, level = 'easy' }) => {
         attempts: attempts.map((a) => ({
           targetEmotion: a.targetEmotion,
           images: a.images,
+          responseTime: a.responseTime || 0,
         })),
       };
 
       const analysisResults = await emotionService.batchAnalyzeEmotions(payload);
 
-      const processedResults = processAnalysisResults(analysisResults, attempts);
+      const processedResults = processAnalysisResults(analysisResults);
       setResults(processedResults);
       setGameComplete(true);
     } catch (err) {
@@ -190,33 +196,31 @@ export const ExpressionGame = ({ onComplete, level = 'easy' }) => {
     }
   };
 
-  // Processar resultados da análise
-  const processAnalysisResults = (analysisResults, attempts) => {
-    let correctCount = 0;
-    const emotionResults = [];
+  // Mapa de tradução de emoções do backend
+  const EMOTION_LABEL = {
+    happy: 'Feliz',
+    sad: 'Triste',
+    angry: 'Raiva',
+    surprise: 'Surpresa',
+    fear: 'Medo',
+    disgust: 'Nojo',
+    neutral: 'Neutro',
+    contempt: 'Desprezo',
+  };
 
-    analysisResults.results.forEach((result, index) => {
-      const isCorrect =
-        result.detectedEmotion.toLowerCase() === attempts[index].targetEmotion.toLowerCase();
-      if (isCorrect) correctCount++;
+  const translateEmotion = (name) => EMOTION_LABEL[name?.toLowerCase()] || name;
 
-      emotionResults.push({
-        targetEmotion: attempts[index].targetEmotion,
-        detectedEmotion: result.detectedEmotion,
-        confidence: result.confidence,
-        isCorrect,
-      });
-    });
-
-    const accuracy = (correctCount / EMOTIONS.length) * 100;
+  // Processar resultados da análise (novo formato do backend)
+  const processAnalysisResults = (analysisResults) => {
     const responseTime = Date.now() - phaseStartTime;
 
     return {
-      totalAttempts: EMOTIONS.length,
-      correctAttempts: correctCount,
-      accuracy: accuracy.toFixed(2),
+      totalAttempts: analysisResults.total,
+      correctAttempts: analysisResults.correct,
+      accuracy: (analysisResults.accuracy * 100).toFixed(2),
       responseTime,
-      emotionResults,
+      emotionResults: analysisResults.results,
+      message: analysisResults.message,
       level,
     };
   };
@@ -258,20 +262,35 @@ export const ExpressionGame = ({ onComplete, level = 'easy' }) => {
           <div className="emotions-breakdown">
             <h3>Detalhes por Emoção</h3>
             <div className="emotion-results-grid">
-              {results.emotionResults.map((result, idx) => (
-                <div
-                  key={idx}
-                  className={`emotion-result ${result.isCorrect ? 'correct' : 'incorrect'}`}
-                >
-                  <div className="result-emotion">
-                    {EMOTIONS[idx].emoji} {EMOTIONS[idx].ptBR}
+              {results.emotionResults.map((result, idx) => {
+                const emotionData = EMOTIONS.find(e => e.name === result.targetEmotion) || EMOTIONS[idx];
+                const topPrediction = result.topPredictions?.[0];
+                return (
+                  <div
+                    key={idx}
+                    className={`emotion-result ${result.isCorrect ? 'correct' : 'incorrect'}`}
+                  >
+                    <div className="result-emotion">
+                      {emotionData.emoji} {emotionData.ptBR}
+                    </div>
+                    <div className="result-detected">
+                      Detectado: {translateEmotion(topPrediction?.emotion)} ({(topPrediction?.score * 100).toFixed(1)}%)
+                    </div>
+                    {result.topPredictions?.length > 1 && (
+                      <div className="result-predictions">
+                        {result.topPredictions.slice(1).map((pred, i) => (
+                          <span key={i} className="prediction-tag">
+                            {translateEmotion(pred.emotion)}: {(pred.score * 100).toFixed(1)}%
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                    <div className={`result-status ${result.isCorrect ? 'status-correct' : 'status-incorrect'}`}>
+                      {result.isCorrect ? '✓ Correto' : '✗ Incorreto'}
+                    </div>
                   </div>
-                  <div className="result-detected">Detectado: {result.detectedEmotion}</div>
-                  <div className={`result-status ${result.isCorrect ? 'status-correct' : 'status-incorrect'}`}>
-                    {result.isCorrect ? '✓ Correto' : '✗ Incorreto'}
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
 
@@ -309,7 +328,7 @@ export const ExpressionGame = ({ onComplete, level = 'easy' }) => {
       )}
 
       <div className="expression-game-header">
-        <h2>🎭 Expressar Emoções</h2>
+        <h2><img src="/icons/challenges/expression.png" alt="" className="game-title-icon" /> Expressar Emoções</h2>
         <div className="progress">
           <span className="progress-text">{currentEmotionIndex + 1}/6</span>
           <div className="progress-bar">
@@ -318,7 +337,7 @@ export const ExpressionGame = ({ onComplete, level = 'easy' }) => {
         </div>
       </div>
 
-      <div className="game-content">
+      <div className="expression-game-content">
         <div className="video-section">
           <div className="video-container">
             <video ref={videoRef} autoPlay playsInline muted className="video-feed" />

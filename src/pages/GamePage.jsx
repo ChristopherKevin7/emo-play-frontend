@@ -46,7 +46,7 @@ export const GamePage = ({ mode }) => {
         <button onClick={handleExit} className="exit-btn">
           ← Voltar
         </button>
-        <h1>Modo: 👁️ Identificar</h1>
+        <h1>Modo: <img src="/icons/challenges/candidate.png" alt="Identificar" className="game-header-icon" /> Identificar</h1>
         <div className="game-info">
           Pontos: {score}/{totalChallenges}
         </div>

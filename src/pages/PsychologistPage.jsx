@@ -79,7 +79,7 @@ export const PsychologistPage = () => {
         </button>
         <h1>Dashboard do Psicólogo</h1>
         <div className="psychologist-user-section">
-          <span className="user-avatar">👨‍⚕️</span>
+          <img src="/icons/ui/psychologist.png" alt="Psicólogo" className="user-avatar" />
           <span className="user-name">{userData?.name || 'Psicólogo'}</span>
         </div>
       </header>
@@ -109,7 +109,7 @@ export const PsychologistPage = () => {
                 className={`child-card ${selectedChild?.id === child.id ? 'active' : ''}`}
                 onClick={() => handleChildSelect(child)}
               >
-                <div className="child-avatar">👦</div>
+                <img src="/icons/ui/children.png" alt="Criança" className="child-avatar" />
                 <div className="child-info">
                   <div className="child-name">{child.name}</div>
                   <div className="child-email">{child.email}</div>

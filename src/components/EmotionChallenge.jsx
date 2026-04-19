@@ -24,9 +24,9 @@ const EMOTION_BUTTONS = [
 ];
 
 const LEVELS = {
-  easy: { id: 'easy', name: 'Fácil', description: 'Personagens Caricatos', icon: '🎨' },
-  medium: { id: 'medium', name: 'Médio', description: 'Personagens 3D', icon: '🎭' },
-  hard: { id: 'hard', name: 'Difícil', description: 'Pessoas Reais', icon: '👤' },
+  easy: { id: 'easy', name: 'Fácil', description: 'Personagens Caricatos', stars: 1 },
+  medium: { id: 'medium', name: 'Médio', description: 'Personagens 3D', stars: 2 },
+  hard: { id: 'hard', name: 'Difícil', description: 'Pessoas Reais', stars: 3 },
 };
 
 // Função para gerar mensagem baseada em porcentagem
@@ -53,6 +53,7 @@ export const EmotionChallenge = ({ mode = 'identify' }) => {
   const [isCapturing, setIsCapturing] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false); // Flag para evitar múltiplos envios
   const phaseStartTimeRef = useRef(null);
+  const challengeStartTimeRef = useRef(null); // Cronômetro por desafio individual
 
   // Effect para iniciar desafio direto no modo express
   useEffect(() => {
@@ -162,6 +163,7 @@ export const EmotionChallenge = ({ mode = 'identify' }) => {
     setGameState('challenge');
     setSelectedButton(null);
     setIsEvaluating(false);
+    challengeStartTimeRef.current = Date.now(); // Inicia cronômetro do desafio
   };
 
   // Responde ao clique de emoção (modo identify)
@@ -172,16 +174,17 @@ export const EmotionChallenge = ({ mode = 'identify' }) => {
     setSelectedButton(selectedEmotion);
     
     const isCorrect = selectedEmotion === currentEmotion;
+    const elapsed = challengeStartTimeRef.current ? Date.now() - challengeStartTimeRef.current : 0;
     
     // Registrar resposta no contexto global
     recordResponse(selectedEmotion);
     
-    // Adicionar resultado à fase (usar responseTime do contexto ou calcular)
+    // Adicionar resultado à fase com tempo de resposta calculado localmente
     setPhaseResults(prev => [...prev, {
       target: currentEmotion,
       selected: selectedEmotion,
       isCorrect,
-      responseTime: responseTime,
+      responseTime: elapsed,
     }]);
 
     // Delay de 1 segundo antes de ir para próximo
@@ -203,16 +206,17 @@ export const EmotionChallenge = ({ mode = 'identify' }) => {
       // Simular análise - em produção isso iria para o backend
       // Por agora, simulamos como se acertou (você pode expandir isso depois)
       const isCorrect = true; // Isso deveria vir do backend
+      const elapsed = challengeStartTimeRef.current ? Date.now() - challengeStartTimeRef.current : 0;
       
       // Registrar resposta no contexto global (simulado como se acertou)
       recordResponse(currentEmotion);
       
-      // Adicionar resultado à fase (com responseTime)
+      // Adicionar resultado à fase com tempo de resposta calculado localmente
       setPhaseResults(prev => [...prev, {
         target: currentEmotion,
         selected: currentEmotion, // Simulado
         isCorrect,
-        responseTime: responseTime,
+        responseTime: elapsed,
       }]);
 
       // Delay antes de próximo desafio
@@ -234,7 +238,7 @@ export const EmotionChallenge = ({ mode = 'identify' }) => {
   if (gameState === 'levelSelect') {
     return (
       <div className="emotion-challenge">
-        <h1>🎮 {mode === 'identify' ? '👀 Quiz de Emoções' : '🎭 Estúdio de Expressão'}</h1>
+        <h1><img src="/icons/challenges/reaction.png" alt="" className="game-title-icon" /> {mode === 'identify' ? 'Quiz de Emoções' : 'Estúdio de Expressão'}</h1>
         <p className="score">Pontuação Total: {score}/{totalChallenges}</p>
         
         <div className="level-selector">
@@ -246,7 +250,11 @@ export const EmotionChallenge = ({ mode = 'identify' }) => {
                 className="level-btn"
                 onClick={() => selectLevel(level.id)}
               >
-                <span className="level-icon">{level.icon}</span>
+                <span className="level-icon">
+                  {Array.from({ length: 3 }, (_, i) => (
+                    <span key={i} className={`level-star ${i < level.stars ? 'filled' : 'empty'}`}>★</span>
+                  ))}
+                </span>
                 <span className="level-name">{level.name}</span>
                 <span className="level-desc">{level.description}</span>
               </button>

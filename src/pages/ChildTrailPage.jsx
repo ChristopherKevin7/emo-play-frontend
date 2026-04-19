@@ -27,7 +27,7 @@ export const ChildTrailPage = () => {
   const phases = [
     {
       id: 1,
-      icon: '👀',
+      icon: '/icons/challenges/reaction.png',
       title: 'Identificar Emoção',
       description: 'Veja e escolha',
       points: 10,
@@ -37,7 +37,7 @@ export const ChildTrailPage = () => {
     },
     {
       id: 2,
-      icon: '🎭',
+      icon: '/icons/challenges/expression.png',
       title: 'Fazer Emoção',
       description: 'Expresse a emoção',
       points: 15,
@@ -80,7 +80,7 @@ export const ChildTrailPage = () => {
             <span className="score-value">{score}</span>
           </div>
           <div className="user-section">
-            <span className="user-avatar">👦</span>
+            <img src="/icons/ui/children.png" alt="Criança" className="user-avatar" />
             <span className="user-name">{userData?.name || 'Usuário'}</span>
           </div>
         </div>
@@ -90,7 +90,7 @@ export const ChildTrailPage = () => {
       <div className="trail-content">
         {/* Título */}
         <div className="trail-title-section">
-          <h1 className="trail-title">🎮 Trilha de Desafios</h1>
+          <h1 className="trail-title"><img src="/icons/challenges/mountain.png" alt="" className="trail-title-icon" /> Trilha de Desafios</h1>
           <p className="trail-subtitle">Escolha uma fase para começar</p>
         </div>
 
@@ -105,7 +105,12 @@ export const ChildTrailPage = () => {
                 role={phase.locked ? 'button' : 'link'}
                 tabIndex={phase.locked ? -1 : 0}
               >
-                <div className="phase-icon">{phase.icon}</div>
+                <div className="phase-icon">
+                  {phase.icon.startsWith('/') 
+                    ? <img src={phase.icon} alt={phase.title} className="phase-icon-img" />
+                    : phase.icon
+                  }
+                </div>
                 <div className="phase-content">
                   <h2 className="phase-title">{phase.title}</h2>
                   <p className="phase-description">{phase.description}</p>

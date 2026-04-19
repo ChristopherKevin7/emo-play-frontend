@@ -5,16 +5,26 @@ import '../styles/ChildMetricsReport.css';
 const EMOTION_TRANSLATIONS = {
   'Happy': 'Feliz',
   'Happiness': 'Feliz',
+  'happy': 'Feliz',
   'Sad': 'Triste',
   'Sadness': 'Triste',
+  'sad': 'Triste',
   'Angry': 'Raiva',
   'Anger': 'Raiva',
+  'angry': 'Raiva',
   'Surprised': 'Surpresa',
   'Surprise': 'Surpresa',
+  'surprise': 'Surpresa',
   'Fearful': 'Medo',
   'Fear': 'Medo',
+  'fear': 'Medo',
   'Disgusted': 'Nojo',
   'Disgust': 'Nojo',
+  'disgust': 'Nojo',
+  'Neutral': 'Neutro',
+  'neutral': 'Neutro',
+  'Contempt': 'Desprezo',
+  'contempt': 'Desprezo',
 };
 
 // Mapa de traduções de níveis
@@ -311,6 +321,142 @@ const ChallengeMetricsCard = ({ challengeName, challengeData }) => {
   );
 };
 
+// Componente de tentativa expansível para Desafio 2
+const ExpandableAttempt = ({ attempt, index }) => {
+  const [expanded, setExpanded] = useState(false);
+
+  return (
+    <div className={`expandable-attempt ${expanded ? 'expanded' : ''}`}>
+      <div className="attempt-header" onClick={() => setExpanded(!expanded)}>
+        <div className="attempt-summary">
+          <span className="attempt-date">
+            {new Date(attempt.date).toLocaleDateString('pt-BR')} às {new Date(attempt.date).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
+          </span>
+          <span className="attempt-accuracy-value">
+            {(attempt.accuracyRate * 100).toFixed(0)}%
+          </span>
+        </div>
+        <span className={`expand-icon ${expanded ? 'open' : ''}`}>▼</span>
+      </div>
+
+      {expanded && attempt.details && (
+        <div className="attempt-details">
+          {attempt.details.map((detail, idx) => (
+            <div key={idx} className={`detail-item ${detail.isCorrect ? 'detail-correct' : 'detail-incorrect'}`}>
+              <div className="detail-header">
+                <span className="detail-target">
+                  <img src="/icons/challenges/reaction.png" alt="" className="detail-target-icon" /> {translateEmotion(detail.targetEmotion)}
+                </span>
+                <div className="detail-header-right">
+                  {detail.responseTimeMs != null && (
+                    <span className="detail-response-time">⏱ {detail.responseTimeMs.toFixed(0)}ms</span>
+                  )}
+                  <span className={`detail-status ${detail.isCorrect ? 'status-correct' : 'status-incorrect'}`}>
+                    {detail.isCorrect ? '✓ Correto' : '✗ Incorreto'}
+                  </span>
+                </div>
+              </div>
+              {detail.topPredictions && detail.topPredictions.length > 0 && (
+                <div className="detail-predictions">
+                  <span className="predictions-label">Top 3 Predições:</span>
+                  <div className="predictions-list">
+                    {detail.topPredictions.slice(0, 3).map((pred, pIdx) => (
+                      <div key={pIdx} className={`prediction-bar ${pIdx === 0 ? 'top-prediction' : ''}`}>
+                        <span className="prediction-name">{translateEmotion(pred.emotion)}</span>
+                        <div className="prediction-bar-bg">
+                          <div
+                            className="prediction-bar-fill"
+                            style={{ width: `${(pred.score * 100).toFixed(0)}%` }}
+                          ></div>
+                        </div>
+                        <span className="prediction-score">{(pred.score * 100).toFixed(1)}%</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+// Card de métricas do Desafio 2 - Expressão
+const Desafio2MetricsCard = ({ challengeName, challengeData }) => {
+  if (!challengeData) {
+    return (
+      <div className="challenge-metrics-card disabled">
+        <h3>{challengeName}</h3>
+        <p className="no-data-message">A criança ainda não realizou este desafio</p>
+      </div>
+    );
+  }
+
+  const { accuracyRate, averageResponseTimeMs, emotionBreakdown, totalSessions, historicAttempts } = challengeData;
+
+  // Ordenar historicAttempts por data (mais recente primeiro)
+  const sortedHistoricAttempts = historicAttempts && historicAttempts.length > 0
+    ? [...historicAttempts].sort((a, b) => new Date(b.date) - new Date(a.date))
+    : [];
+
+  return (
+    <div className="challenge-metrics-card">
+      <h3>{challengeName}</h3>
+
+      <div className="metrics-summary">
+        <div className="metric-item">
+          <span className="metric-label">Taxa de Acerto</span>
+          <span className="metric-value">{(accuracyRate * 100).toFixed(2)}%</span>
+        </div>
+        <div className="metric-item">
+          <span className="metric-label">Tempo Médio de Resposta</span>
+          <span className="metric-value">{averageResponseTimeMs != null ? `${averageResponseTimeMs.toFixed(0)}ms` : 'N/A'}</span>
+        </div>
+        <div className="metric-item">
+          <span className="metric-label">Total de Sessões</span>
+          <span className="metric-value">{totalSessions}</span>
+        </div>
+      </div>
+
+      {emotionBreakdown && Object.keys(emotionBreakdown).length > 0 && (
+        <div className="emotion-breakdown">
+          <h4>Análise por Emoção</h4>
+          <div className="emotion-grid">
+            {Object.entries(emotionBreakdown).map(([emotion, data]) => (
+              <div key={emotion} className="emotion-item">
+                <div className="emotion-name">{translateEmotion(emotion)}</div>
+                <div className="emotion-stats">
+                  <span className="stat">Tentativas: {data.attempts}</span>
+                  <span className="stat">Corretas: {data.correctAttempts}</span>
+                  <span className={`stat accuracy ${data.accuracy === 1 ? 'perfect' : data.accuracy > 0.5 ? 'good' : 'needs-work'}`}>
+                    Acurácia: {(data.accuracy * 100).toFixed(0)}%
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {sortedHistoricAttempts.length > 0 && (
+        <div className="progress-section">
+          <div className="progress-header">
+            <h4>Tendência de Progresso</h4>
+          </div>
+          <p className="expand-hint">Clique em uma tentativa para ver detalhes por emoção</p>
+          <div className="progress-list">
+            {sortedHistoricAttempts.map((attempt, index) => (
+              <ExpandableAttempt key={index} attempt={attempt} index={index} />
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
 export const ChildMetricsReport = ({ metricsData, childName }) => {
   if (!metricsData) {
     return (
@@ -324,12 +470,12 @@ export const ChildMetricsReport = ({ metricsData, childName }) => {
     <div className="child-metrics-report">
       <div className="challenges-container">
         <ChallengeMetricsCard 
-          challengeName="🎯 Desafio 1 - Identificação"
+          challengeName={<span className="challenge-name"><img src="/icons/challenges/reaction.png" alt="" className="challenge-name-icon" /> Desafio 1 - Identificação</span>}
           challengeData={metricsData.desafio_1}
         />
         
-        <ChallengeMetricsCard 
-          challengeName="🎭 Desafio 2 - Expressão"
+        <Desafio2MetricsCard 
+          challengeName={<span className="challenge-name"><img src="/icons/challenges/expression.png" alt="" className="challenge-name-icon" /> Desafio 2 - Expressão</span>}
           challengeData={metricsData.desafio_2}
         />
       </div>

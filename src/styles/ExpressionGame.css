@@ -9,6 +9,14 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+.game-title-icon {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+
 /* Header */
 .expression-game-header {
   width: 100%;
@@ -55,7 +63,7 @@
 }
 
 /* Game Content */
-.game-content {
+.expression-game-content {
   width: 100%;
   max-width: 800px;
   background: white;
@@ -441,6 +449,21 @@
   color: #666;
 }
 
+.result-predictions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.prediction-tag {
+  font-size: 11px;
+  color: #888;
+  background: #f0f0f0;
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
 .result-status {
   font-weight: bold;
   font-size: 14px;
@@ -521,7 +544,7 @@
     padding: 10px;
   }
 
-  .game-content {
+  .expression-game-content {
     padding: 20px;
   }
 

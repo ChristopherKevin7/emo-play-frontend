@@ -38,6 +38,27 @@
   padding-bottom: 10px;
 }
 
+.challenge-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.challenge-name-icon {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.detail-target-icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  vertical-align: middle;
+  margin-right: 2px;
+}
+
 .no-data-message {
   color: #999;
   text-align: center;
@@ -293,6 +314,212 @@
   padding: 40px;
   color: #999;
   font-size: 16px;
+}
+
+/* Desafio 2 - Métricas com 2 colunas */
+.metrics-summary-2col {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+/* Expandable attempt */
+.expandable-attempt {
+  background-color: #fafafa;
+  border-radius: 6px;
+  border-left: 4px solid #667eea;
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+}
+
+.expandable-attempt:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.expandable-attempt.expanded {
+  border-left-color: #7C3AED;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+.attempt-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.attempt-header:hover {
+  background-color: #f0f0f0;
+}
+
+.attempt-summary {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex: 1;
+}
+
+.attempt-date {
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+}
+
+.attempt-accuracy-value {
+  font-size: 16px;
+  font-weight: bold;
+  color: #667eea;
+}
+
+.expand-icon {
+  font-size: 12px;
+  color: #999;
+  transition: transform 0.25s ease;
+}
+
+.expand-icon.open {
+  transform: rotate(180deg);
+}
+
+.expand-hint {
+  font-size: 12px;
+  color: #999;
+  font-style: italic;
+  margin: 0 0 10px 0;
+}
+
+/* Attempt details */
+.attempt-details {
+  padding: 0 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-top: 1px solid #eee;
+  padding-top: 12px;
+}
+
+.detail-item {
+  background: white;
+  border-radius: 6px;
+  padding: 12px;
+  border: 1px solid #e8e8e8;
+}
+
+.detail-item.detail-correct {
+  border-left: 3px solid #2563EB;
+}
+
+.detail-item.detail-incorrect {
+  border-left: 3px solid #EF4444;
+}
+
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.detail-header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.detail-response-time {
+  font-size: 12px;
+  color: #666;
+  background: #f5f5f5;
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
+.detail-target {
+  font-weight: 600;
+  font-size: 14px;
+  color: #333;
+}
+
+.detail-status {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
+.status-correct {
+  color: #2563EB;
+  background: #DBEAFE;
+}
+
+.status-incorrect {
+  color: #EF4444;
+  background: #FEE2E2;
+}
+
+/* Predictions bars */
+.detail-predictions {
+  margin-top: 6px;
+}
+
+.predictions-label {
+  font-size: 11px;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.predictions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.prediction-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.prediction-bar.top-prediction .prediction-name {
+  font-weight: 600;
+  color: #333;
+}
+
+.prediction-name {
+  font-size: 12px;
+  color: #666;
+  width: 70px;
+  flex-shrink: 0;
+}
+
+.prediction-bar-bg {
+  flex: 1;
+  height: 8px;
+  background: #eee;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.prediction-bar-fill {
+  height: 100%;
+  background: #667eea;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.top-prediction .prediction-bar-fill {
+  background: #7C3AED;
+}
+
+.prediction-score {
+  font-size: 12px;
+  color: #666;
+  width: 50px;
+  text-align: right;
+  flex-shrink: 0;
 }
 
 @media (max-width: 768px) {

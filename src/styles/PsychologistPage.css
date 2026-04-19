@@ -62,7 +62,9 @@
 }
 
 .user-avatar {
-  font-size: 24px;
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
 }
 
 .user-name {
@@ -140,6 +142,27 @@
   flex-direction: column;
   gap: 12px;
   height: 45vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.children-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.children-list::-webkit-scrollbar-track {
+  background: #f0f0f0;
+  border-radius: 3px;
+}
+
+.children-list::-webkit-scrollbar-thumb {
+  background: #c0b4e8;
+  border-radius: 3px;
+}
+
+.children-list::-webkit-scrollbar-thumb:hover {
+  background: #9b8bc8;
 }
 
 /* ===== CHILD CARD ===== */
@@ -168,7 +191,9 @@
 }
 
 .child-avatar {
-  font-size: 32px;
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
   flex-shrink: 0;
 }
 

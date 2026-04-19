@@ -1,142 +1,148 @@
-# 📖 README - EMO-Play Frontend
+﻿# EMO-Play - Frontend
 
-## 🎯 Descrição
+Frontend do sistema **EMO-Play**, uma aplicacao gamificada de reconhecimento e expressao de emocoes desenvolvida para criancas com Transtorno do Espectro Autista (TEA).
 
-EMO-Play é um aplicativo React gamificado para exercitar reconhecimento e expressão de emoções. Este é o frontend da aplicação, desenvolvido com React + Vite.
+Desenvolvido como parte do Trabalho de Conclusao de Curso em Engenharia da Computacao.
 
-## 🚀 Início Rápido
+---
 
-### Pré-requisitos
-- Node.js 16+ e npm
-- Backend FastAPI executando em `http://localhost:5000`
+## Tecnologias
 
-### Instalação
+- **React 18** com hooks
+- **React Router v6** para navegacao
+- **Vite** como bundler
+- **CSS3** para estilizacao (sem frameworks externos)
+
+---
+
+## Pre-requisitos
+
+- Node.js 18+
+- Backend .NET em execucao em `http://localhost:5000`
+
+---
+
+## Instalacao e Execucao
 
 ```bash
-# Instalar dependências
+# Instalar dependencias
 npm install
-
-# Criar arquivo .env (se não existir)
-cp .env.example .env
 
 # Executar em desenvolvimento
 npm run dev
 ```
 
-A aplicação será aberta em `http://localhost:5173`
-
-### Build para Produção
+Acesse em `http://localhost:5173`
 
 ```bash
+# Build para producao
 npm run build
+
+# Preview do build
 npm run preview
-```
-
-## 📁 Estrutura do Projeto
-
-```
-src/
-├── components/           # Componentes reutilizáveis
-│   ├── WebcamCapture.jsx
-│   ├── EmotionChallenge.jsx
-│   └── PsychologistDashboard.jsx
-├── pages/               # Páginas principais
-│   ├── HomePage.jsx
-│   ├── GamePage.jsx
-│   └── DashboardPage.jsx
-├── services/            # Serviços API
-│   └── api.js
-├── context/             # Estado global
-│   └── GameContext.jsx
-├── styles/              # CSS dos componentes
-├── App.jsx              # Componente principal
-└── main.jsx             # Entry point
-```
-
-## 🎮 Como Usar
-
-1. **Página Inicial**: Escolha entre dois modos
-2. **Modo Identificar**: Identifique qual emoção você vê
-3. **Modo Fazer Emoção**: Expresse a emoção solicitada
-4. **Dashboard**: Visualize suas métricas técnicas
-
-## 🔧 Configuração de Ambiente
-
-Arquivo `.env`:
-```
-VITE_API_URL=http://localhost:5000/api
-```
-
-## 📦 Dependências Principais
-
-- React 18
-- Vite 4
-- CSS3 com variáveis
-
-## 🎨 Customização
-
-### Adicionar Novas Emoções
-
-Edite `src/components/EmotionChallenge.jsx`:
-```javascript
-const EMOTIONS = ['Happy', 'Sad', 'Angry', 'Surprised', 'Neutral', 'Disgusted', 'Afraid'];
-```
-
-### Mudar Cores
-
-Edite variáveis CSS em `src/App.css`:
-```css
-:root {
-  --color-primary: #667eea;
-  --color-secondary: #764ba2;
-  /* ... */
-}
-```
-
-## 🐛 Troubleshooting
-
-### Câmera não funciona
-- Verifique permissões do navegador
-- Chrome requer HTTPS em produção
-- Tente recarregar a página
-
-### Erro de conexão com Backend
-- Verifique se o Backend está rodando
-- Confirme a `VITE_API_URL` em `.env`
-- Verificar CORS no Backend
-
-## 📚 Recursos Adicionais
-
-- [React Documentation](https://react.dev)
-- [Vite Documentation](https://vitejs.dev)
-- [MDN - Web APIs](https://developer.mozilla.org/en-US/docs/Web/API)
-
-## 📄 Licença
-
-Este projeto é parte do trabalho de conclusão de curso em Engenharia da Computação.
-
-## 👨‍💻 Desenvolvimento
-
-### Scripts Disponíveis
-
-```bash
-npm run dev      # Iniciar servidor de desenvolvimento
-npm run build    # Build para produção
-npm run preview  # Preview do build
-npm run lint     # Verificar código (se ESLint configurado)
 ```
 
 ---
 
-**Desenvolvido com ❤️ para crianças com TEA**
+## Configuracao de Ambiente
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Crie um arquivo `.env` na raiz do projeto:
 
-## React Compiler
+```env
+VITE_API_URL=http://localhost:5000/api
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## Estrutura do Projeto
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```
+src/
+|-- components/
+|   |-- EmotionChallenge.jsx      # Desafio 1 - Identificar emocao
+|   |-- ExpressionGame.jsx        # Desafio 2 - Expressar emocao via webcam
+|   |-- WebcamCapture.jsx         # Componente de captura de camera
+|   |-- ChildMetricsReport.jsx    # Relatorio de metricas para o psicologo
+|   |-- PsychologistDashboard.jsx # Dashboard do psicologo
+|   |-- AddChildDialog.jsx        # Dialog para cadastro de crianca
+|-- pages/
+|   |-- RoleSelectionPage.jsx     # Login e selecao de papel
+|   |-- ChildTrailPage.jsx        # Trilha de desafios da crianca
+|   |-- GamePage.jsx              # Pagina de jogo (roteamento de modos)
+|   |-- PsychologistPage.jsx      # Pagina principal do psicologo
+|   |-- DashboardPage.jsx         # Dashboard de metricas
+|-- context/
+|   |-- AppContext.jsx            # Estado global (autenticacao, sessao, jogo)
+|   |-- GameContext.jsx           # Estado do jogo
+|-- services/
+|   |-- httpClient.js             # Cliente HTTP base com autenticacao
+|   |-- auth.js                   # Servico de autenticacao
+|   |-- emotion.js                # Servico de analise de emocoes
+|   |-- child.js                  # Servico de gerenciamento de criancas
+|   |-- psychologist.js           # Servico do psicologo
+|   |-- user.js                   # Servico de usuarios
+|   |-- index.js                  # Exportacoes centralizadas
+|-- styles/                       # CSS por componente/pagina
+|-- App.jsx                       # Rotas principais
+|-- main.jsx                      # Entry point
+public/
+|-- icons/
+    |-- ui/                       # Icones de interface (children, psychologist, happy)
+    |-- challenges/               # Icones dos desafios (reaction, expression, mountain, candidate)
+    |-- emotions/                 # Imagens de emocoes por dificuldade (easy, medium, hard)
+```
+
+---
+
+## Fluxo de Navegacao
+
+### Crianca
+1. `/login` -> seleciona "Crianca"
+2. `/child-trail` -> trilha com as fases disponiveis
+3. `/game/identify` -> Desafio 1 (identificar emocao em imagem)
+4. `/game/express` -> Desafio 2 (expressar emocao via webcam)
+
+### Psicologo
+1. `/login` -> seleciona "Psicologo"
+2. `/psychologist` -> dashboard com lista de criancas e relatorio de metricas
+
+---
+
+## Modos de Jogo
+
+### Desafio 1 - Identificar
+- Exibe imagem de uma emocao em 3 niveis de dificuldade (1 estrela Facil / 2 estrelas Medio / 3 estrelas Dificil)
+- Crianca escolhe entre 6 opcoes de emocao
+- Tempo de resposta por emocao registrado individualmente
+- Resultado enviado para `/api/Games/results`
+
+### Desafio 2 - Expressar
+- Crianca deve expressar a emocao solicitada para a webcam
+- 3 frames capturados por emocao (intervalo de 250ms)
+- Tempo de resposta por emocao registrado individualmente
+- Analise enviada para `/api/emotion/batch-analyze`
+
+---
+
+## Relatorio do Psicologo
+
+O relatorio exibe metricas tecnicas separadas por desafio:
+
+- **Taxa de acerto media**
+- **Tempo medio de resposta (ms)**
+- **Total de sessoes**
+- **Analise por emocao** (tentativas, acertos, acuracia)
+- **Tendencia de progresso** com historico expansivel por sessao
+
+As metricas sao estritamente tecnicas e nao possuem finalidade diagnostica ou clinica.
+
+---
+
+## Scripts Disponiveis
+
+```bash
+npm run dev      # Servidor de desenvolvimento
+npm run build    # Build para producao
+npm run preview  # Preview do build
+npm run lint     # Verificacao de codigo
+```

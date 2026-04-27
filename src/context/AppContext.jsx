@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback } from 'react';
+import React, { createContext, useContext, useState, useCallback, useEffect } from 'react';
 import { authService, userService } from '../services';
 
 const AppContext = createContext();
@@ -20,6 +20,39 @@ export const AppProvider = ({ children }) => {
   const [responseTime, setResponseTime] = useState(null);
   const [detectedEmotion, setDetectedEmotion] = useState(null);
   const [sessionResults, setSessionResults] = useState([]);
+
+  // Accessibility
+  const [colorblindMode, setColorblindMode] = useState(() => localStorage.getItem('colorblindMode') === 'true');
+
+  // Points
+  const [points, setPoints] = useState(0);
+
+  useEffect(() => {
+    if (colorblindMode) {
+      document.documentElement.setAttribute('data-colorblind', 'true');
+    } else {
+      document.documentElement.removeAttribute('data-colorblind');
+    }
+    localStorage.setItem('colorblindMode', colorblindMode);
+  }, [colorblindMode]);
+
+  const toggleColorblindMode = useCallback(() => setColorblindMode(prev => !prev), []);
+
+  const fetchPoints = useCallback(async (userId) => {
+    try {
+      const data = await userService.getUserPoints(userId);
+      // Backend pode retornar { points: N } ou apenas N
+      const value = typeof data === 'number' ? data : (data?.points ?? data?.totalPoints ?? 0);
+      setPoints(value);
+      return value;
+    } catch {
+      // Falha silenciosa — não bloqueia a UI
+    }
+  }, []);
+
+  const addPoints = useCallback((amount) => {
+    if (amount > 0) setPoints(prev => prev + amount);
+  }, []);
 
   // Login function - integrado com o backend
   const login = useCallback(async (email, password, role) => {
@@ -164,6 +197,7 @@ export const AppProvider = ({ children }) => {
     setDetectedEmotion(null);
     setSessionResults([]);
     setAuthError(null);
+    setPoints(0);
   }, []);
 
   const value = {
@@ -198,6 +232,15 @@ export const AppProvider = ({ children }) => {
 
     // Session history
     sessionResults,
+
+    // Accessibility
+    colorblindMode,
+    toggleColorblindMode,
+
+    // Points
+    points,
+    fetchPoints,
+    addPoints,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

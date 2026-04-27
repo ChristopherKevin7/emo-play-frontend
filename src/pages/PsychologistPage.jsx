@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChildMetricsReport } from '../components/ChildMetricsReport';
 import { AddChildDialog } from '../components/AddChildDialog';
+import { ColorblindToggle } from '../components/ColorblindToggle';
 import { useApp } from '../context/AppContext';
 import { userService, metricsService } from '../services';
 import '../styles/PsychologistPage.css';
@@ -78,9 +79,12 @@ export const PsychologistPage = () => {
           ← Sair
         </button>
         <h1>Dashboard do Psicólogo</h1>
-        <div className="psychologist-user-section">
-          <img src="/icons/ui/psychologist.png" alt="Psicólogo" className="user-avatar" />
-          <span className="user-name">{userData?.name || 'Psicólogo'}</span>
+        <div className="psychologist-header-right">
+          <ColorblindToggle />
+          <div className="psychologist-user-section">
+            <img src="/icons/ui/psychologist.png" alt="Psicólogo" className="user-avatar" />
+            <span className="user-name">{userData?.name || 'Psicólogo'}</span>
+          </div>
         </div>
       </header>
 

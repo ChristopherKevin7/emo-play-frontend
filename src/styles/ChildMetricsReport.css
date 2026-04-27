@@ -148,15 +148,15 @@
 }
 
 .stat.accuracy.perfect {
-  color: #2563EB;
+  color: #2e7d32;
 }
 
 .stat.accuracy.good {
-  color: #F59E0B;
+  color: #e65100;
 }
 
 .stat.accuracy.needs-work {
-  color: #7C3AED;
+  color: #c62828;
 }
 
 .progress-section {
@@ -406,11 +406,11 @@
 }
 
 .detail-item.detail-correct {
-  border-left: 3px solid #2563EB;
+  border-left: 3px solid #4caf50;
 }
 
 .detail-item.detail-incorrect {
-  border-left: 3px solid #EF4444;
+  border-left: 3px solid #f44336;
 }
 
 .detail-header {
@@ -448,13 +448,13 @@
 }
 
 .status-correct {
-  color: #2563EB;
-  background: #DBEAFE;
+  color: #2e7d32;
+  background: #e8f5e9;
 }
 
 .status-incorrect {
-  color: #EF4444;
-  background: #FEE2E2;
+  color: #c62828;
+  background: #ffebee;
 }
 
 /* Predictions bars */
@@ -556,4 +556,43 @@
   .chart-legend {
     gap: 10px;
   }
+}
+
+/* =============================================================
+   MODO DALTÔNICO — Psicólogo / ChildMetricsReport
+   Correto / Perfeito / Fácil  → Azul    (#0077BB)
+   Médio / Bom                  → Laranja (#EE7733)
+   Incorreto / Ruim / Difícil  → Vermelhão (#CC3300)
+============================================================= */
+
+/* Análise por Emoção — porcentagens de acuácia */
+[data-colorblind="true"] .stat.accuracy.perfect {
+  color: #004d80;
+}
+
+[data-colorblind="true"] .stat.accuracy.good {
+  color: #994400;
+}
+
+[data-colorblind="true"] .stat.accuracy.needs-work {
+  color: #882200;
+}
+
+/* Tendência de Progresso — Desafio 2: detalhes expandíveis */
+[data-colorblind="true"] .detail-item.detail-correct {
+  border-left-color: #0077BB;
+}
+
+[data-colorblind="true"] .detail-item.detail-incorrect {
+  border-left-color: #CC3300;
+}
+
+[data-colorblind="true"] .status-correct {
+  color: #004d80;
+  background: #ddeeff;
+}
+
+[data-colorblind="true"] .status-incorrect {
+  color: #882200;
+  background: #ffeedd;
 }

@@ -61,6 +61,12 @@
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
+.psychologist-header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
 .user-avatar {
   width: 28px;
   height: 28px;

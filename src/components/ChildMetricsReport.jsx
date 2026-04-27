@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useApp } from '../context/AppContext';
 import '../styles/ChildMetricsReport.css';
 
 // Mapa de traduções de emoções do inglês para português
@@ -44,20 +45,27 @@ const translateLevel = (levelEnglish) => {
   return LEVEL_TRANSLATIONS[levelEnglish?.toLowerCase()] || levelEnglish;
 };
 
-// Mapa de cores por nível
-const LEVEL_COLORS = {
-  'easy': '#2563EB',      // azul
-  'medium': '#F59E0B',    // Amarelo
-  'hard': '#7C3AED',      // roxo
+// Mapas de cores por nível
+const LEVEL_COLORS_NORMAL = {
+  easy: '#4caf50',   // verde
+  medium: '#ffc107', // amarelo
+  hard: '#f44336',   // vermelho
+};
+
+const LEVEL_COLORS_COLORBLIND = {
+  easy: '#0077BB',   // azul
+  medium: '#EE7733', // laranja
+  hard: '#CC3300',   // vermelhão
 };
 
 // Função para obter cor do nível
-const getLevelColor = (level) => {
-  return LEVEL_COLORS[level?.toLowerCase()] || '#667eea';
+const getLevelColor = (level, colorblindMode) => {
+  const colors = colorblindMode ? LEVEL_COLORS_COLORBLIND : LEVEL_COLORS_NORMAL;
+  return colors[level?.toLowerCase()] || '#667eea';
 };
 
 // Componente do Gráfico de Progresso
-const ProgressChart = ({ historicAttempts }) => {
+const ProgressChart = ({ historicAttempts, colorblindMode }) => {
   if (!historicAttempts || historicAttempts.length === 0) {
     return <p className="chart-no-data">Sem dados disponíveis para o gráfico</p>;
   }
@@ -161,7 +169,7 @@ const ProgressChart = ({ historicAttempts }) => {
               cx={point.x}
               cy={point.y}
               r="6"
-              fill={getLevelColor(point.level)}
+              fill={getLevelColor(point.level, colorblindMode)}
               stroke="white"
               strokeWidth="2"
               className="chart-point"
@@ -175,25 +183,30 @@ const ProgressChart = ({ historicAttempts }) => {
       </svg>
 
       {/* Legenda */}
-      <div className="chart-legend">
-        <div className="legend-item">
-          <span className="legend-color" style={{ backgroundColor: LEVEL_COLORS.easy }}></span>
-          <span>Fácil</span>
-        </div>
-        <div className="legend-item">
-          <span className="legend-color" style={{ backgroundColor: LEVEL_COLORS.medium }}></span>
-          <span>Médio</span>
-        </div>
-        <div className="legend-item">
-          <span className="legend-color" style={{ backgroundColor: LEVEL_COLORS.hard }}></span>
-          <span>Difícil</span>
-        </div>
-      </div>
+      {(() => {
+        const colors = colorblindMode ? LEVEL_COLORS_COLORBLIND : LEVEL_COLORS_NORMAL;
+        return (
+          <div className="chart-legend">
+            <div className="legend-item">
+              <span className="legend-color" style={{ backgroundColor: colors.easy }}></span>
+              <span>Fácil</span>
+            </div>
+            <div className="legend-item">
+              <span className="legend-color" style={{ backgroundColor: colors.medium }}></span>
+              <span>Médio</span>
+            </div>
+            <div className="legend-item">
+              <span className="legend-color" style={{ backgroundColor: colors.hard }}></span>
+              <span>Difícil</span>
+            </div>
+          </div>
+        );
+      })()}
     </div>
   );
 };
 
-const ChallengeMetricsCard = ({ challengeName, challengeData }) => {
+const ChallengeMetricsCard = ({ challengeName, challengeData, colorblindMode }) => {
   const [activeTab, setActiveTab] = useState('list'); // 'list' ou 'chart'
 
   if (!challengeData) {
@@ -309,7 +322,7 @@ const ChallengeMetricsCard = ({ challengeName, challengeData }) => {
           ) : (
             <div className="chart-tab-content">
               {sortedHistoricAttempts && sortedHistoricAttempts.length > 0 ? (
-                <ProgressChart historicAttempts={sortedHistoricAttempts} />
+                <ProgressChart historicAttempts={sortedHistoricAttempts} colorblindMode={colorblindMode} />
               ) : (
                 <p className="chart-no-data">Sem dados de histórico disponíveis para o gráfico</p>
               )}
@@ -458,6 +471,8 @@ const Desafio2MetricsCard = ({ challengeName, challengeData }) => {
 };
 
 export const ChildMetricsReport = ({ metricsData, childName }) => {
+  const { colorblindMode } = useApp();
+
   if (!metricsData) {
     return (
       <div className="child-metrics-report">
@@ -472,6 +487,7 @@ export const ChildMetricsReport = ({ metricsData, childName }) => {
         <ChallengeMetricsCard 
           challengeName={<span className="challenge-name"><img src="/icons/challenges/reaction.png" alt="" className="challenge-name-icon" /> Desafio 1 - Identificação</span>}
           challengeData={metricsData.desafio_1}
+          colorblindMode={colorblindMode}
         />
         
         <Desafio2MetricsCard 

@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
+import { ColorblindToggle } from '../components/ColorblindToggle';
 import '../styles/ChildTrailPage.css';
 
 export const ChildTrailPage = () => {
   const navigate = useNavigate();
-  const { setGameMode, startNewSession, logout, score, userData } = useApp();
+  const { setGameMode, startNewSession, logout, userData, points, fetchPoints } = useApp();
+
+  // Buscar pontuação total ao entrar na tela
+  useEffect(() => {
+    if (userData?.id) fetchPoints(userData.id);
+  }, [userData?.id]);
 
   const handleStartIdentify = () => {
     startNewSession();
@@ -30,7 +36,6 @@ export const ChildTrailPage = () => {
       icon: '/icons/challenges/reaction.png',
       title: 'Identificar Emoção',
       description: 'Veja e escolha',
-      points: 10,
       mode: 'identify',
       color: 'identify',
       locked: false,
@@ -40,7 +45,6 @@ export const ChildTrailPage = () => {
       icon: '/icons/challenges/expression.png',
       title: 'Fazer Emoção',
       description: 'Expresse a emoção',
-      points: 15,
       mode: 'express',
       color: 'express',
       locked: false,
@@ -50,7 +54,6 @@ export const ChildTrailPage = () => {
       icon: '🧪',
       title: 'Próxima Fase',
       description: 'Em desenvolvimento',
-      points: 20,
       mode: null,
       color: 'future',
       locked: true,
@@ -75,9 +78,10 @@ export const ChildTrailPage = () => {
           ← Sair
         </button>
         <div className="header-stats">
+          <ColorblindToggle />
           <div className="score-section">
             <span className="star">⭐</span>
-            <span className="score-value">{score}</span>
+            <span className="score-value">{points} pontos</span>
           </div>
           <div className="user-section">
             <img src="/icons/ui/children.png" alt="Criança" className="user-avatar" />
@@ -116,9 +120,6 @@ export const ChildTrailPage = () => {
                   <p className="phase-description">{phase.description}</p>
                 </div>
                 {phase.locked && <div className="lock-badge">🔒</div>}
-                {!phase.locked && (
-                  <div className="points-badge">⭐ +{phase.points}</div>
-                )}
                 {!phase.locked && (
                   <button className="start-btn">Começar</button>
                 )}

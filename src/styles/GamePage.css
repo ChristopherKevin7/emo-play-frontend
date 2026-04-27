@@ -53,6 +53,12 @@
   font-weight: bold;
 }
 
+.game-header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
 .game-content {
   flex: 1;
   display: flex;

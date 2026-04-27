@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { EmotionChallenge } from '../components/EmotionChallenge';
 import { ExpressionGame } from '../components/ExpressionGame';
+import { ColorblindToggle } from '../components/ColorblindToggle';
 import { useApp } from '../context/AppContext';
 import '../styles/GamePage.css';
 
@@ -47,8 +48,11 @@ export const GamePage = ({ mode }) => {
           ← Voltar
         </button>
         <h1>Modo: <img src="/icons/challenges/candidate.png" alt="Identificar" className="game-header-icon" /> Identificar</h1>
-        <div className="game-info">
-          Pontos: {score}/{totalChallenges}
+        <div className="game-header-right">
+          <ColorblindToggle />
+          <div className="game-info">
+            Pontos: {score}/{totalChallenges}
+          </div>
         </div>
       </div>
 

@@ -144,4 +144,17 @@ export const userService = {
       throw error;
     }
   },
+
+  // Obter pontuação total do usuário
+  getUserPoints: async (userId) => {
+    try {
+      return await httpClient.get(
+        `/Users/${userId}/points`,
+        true
+      );
+    } catch (error) {
+      console.error('Erro ao obter pontuação do usuário:', error);
+      throw error;
+    }
+  },
 };

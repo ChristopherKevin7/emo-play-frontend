@@ -29,6 +29,22 @@ const LEVELS = {
   hard: { id: 'hard', name: 'Difícil', description: 'Pessoas Reais', stars: 3 },
 };
 
+// Mapa de tradução: chave em inglês → português
+const EMOTION_PT = Object.fromEntries(EMOTION_BUTTONS.map(e => [e.key, e.label]));
+
+// Frases motivacionais variadas
+const MOTIVATIONAL_PHRASES = [
+  'Incrível! Continue assim! ',
+  'Você está indo muito bem! ',
+  'Parabéns! Vamos para o próximo desafio! ',
+  'Que demais! Você arrasou! ',
+  'Sensacional! Seu esforço está valendo! ',
+  'Ótimo trabalho! Cada vez melhor! ',
+];
+
+const getMotivationalPhrase = () =>
+  MOTIVATIONAL_PHRASES[Math.floor(Math.random() * MOTIVATIONAL_PHRASES.length)];
+
 // Função para gerar mensagem baseada em porcentagem
 const getFeedbackMessage = (percentage) => {
   if (percentage === 100) return '🌟 Perfeito! Você acertou todas as emoções!';
@@ -39,7 +55,7 @@ const getFeedbackMessage = (percentage) => {
 };
 
 export const EmotionChallenge = ({ mode = 'identify' }) => {
-  const { score, totalChallenges, recordResponse, loadChallenge, userData, sessionId, responseTime } = useApp();
+  const { score, totalChallenges, recordResponse, loadChallenge, userData, sessionId, responseTime, fetchPoints, addPoints } = useApp();
   
   const [gameState, setGameState] = useState(mode === 'express' ? 'challenge' : 'levelSelect'); // levelSelect | challenge | phase-complete
   const [currentLevel, setCurrentLevel] = useState(mode === 'express' ? 'medium' : null);
@@ -50,6 +66,8 @@ export const EmotionChallenge = ({ mode = 'identify' }) => {
   const [selectedButton, setSelectedButton] = useState(null); // Botão selecionado para feedback visual
   const [isEvaluating, setIsEvaluating] = useState(false); // Flag para desabilitar cliques durante feedback
   const [phaseResults, setPhaseResults] = useState([]); // Array com resultados de cada pergunta
+  const [earnedScore, setEarnedScore] = useState(null);  // Pontos ganhos nesta fase
+  const [motivationalPhrase] = useState(getMotivationalPhrase);
   const [isCapturing, setIsCapturing] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false); // Flag para evitar múltiplos envios
   const phaseStartTimeRef = useRef(null);
@@ -110,6 +128,14 @@ export const EmotionChallenge = ({ mode = 'identify' }) => {
       const response = await gamesService.submitGameResult(gameResultData);
       
       console.log('Fase enviada com sucesso:', response);
+
+      // Capturar score retornado pelo backend e atualizar pontuação
+      const gained = response?.score ?? response?.points ?? null;
+      if (gained != null) {
+        setEarnedScore(gained);
+        addPoints(gained);
+        if (userData?.id) fetchPoints(userData.id);
+      }
     } catch (error) {
       console.error('Erro ao enviar resultado da fase:', error);
     } finally {
@@ -247,7 +273,7 @@ export const EmotionChallenge = ({ mode = 'identify' }) => {
             {Object.values(LEVELS).map((level) => (
               <button
                 key={level.id}
-                className="level-btn"
+                className={`level-btn level-${level.id}`}
                 onClick={() => selectLevel(level.id)}
               >
                 <span className="level-icon">
@@ -352,7 +378,18 @@ export const EmotionChallenge = ({ mode = 'identify' }) => {
       <div className="emotion-challenge">
         <div className="phase-complete-container">
           <h1>🎉 Fase Concluída!</h1>
-          
+
+          {earnedScore != null && (
+            <div className="score-earned-banner">
+              <span className="score-earned-icon">⭐</span>
+              <span className="score-earned-text">
+                Muito bem! Você ganhou <strong>+{earnedScore} pontos!</strong>
+              </span>
+            </div>
+          )}
+
+          <p className="motivational-message">{motivationalPhrase}</p>
+
           <div className="phase-feedback">
             <div className="score-box">
               <span className="score-label">Acertos:</span>
@@ -375,7 +412,7 @@ export const EmotionChallenge = ({ mode = 'identify' }) => {
                     className={`result-item ${result.isCorrect ? 'correct' : 'incorrect'}`}
                   >
                     <span className="result-icon">{result.isCorrect ? '✓' : '✗'}</span>
-                    <span className="result-text">{result.target}</span>
+                    <span className="result-text">{EMOTION_PT[result.target] || result.target}</span>
                   </div>
                 ))}
               </div>

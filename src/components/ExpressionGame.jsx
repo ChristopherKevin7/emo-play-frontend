@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useApp } from '../context/AppContext';
 import { emotionService } from '../services';
+import { ColorblindToggle } from './ColorblindToggle';
 import '../styles/ExpressionGame.css';
 
 const EMOTIONS = [
@@ -45,8 +46,45 @@ const EMOTIONS = [
 const FRAMES_PER_CAPTURE = 3;
 const FRAME_INTERVAL_MS = 250;
 
+// Imagens de referência e frases motivacionais para cada emoção
+const EMOTION_HINTS = {
+  happy: {
+    image: '/hints/emotions/happy.jpg',
+    phrase: 'Para mostrar Felicidade, sorria bem largo mostrando os dentes! Pense em algo que te deixa muito contente! 😄',
+  },
+  sad: {
+    image: '/hints/emotions/sadness.jpg',
+    phrase: 'Para mostrar Tristeza, deixe os cantos da boca caídos e o olhar pesado, como se fosse chorar. 😢',
+  },
+  angry: {
+    image: '/hints/emotions/anger.jpg',
+    phrase: 'Para mostrar Raiva, franza bem a testa e aperte os olhos. Imagine algo que te deixa muito bravo! 😠',
+  },
+  surprise: {
+    image: '/hints/emotions/surprise.jpg',
+    phrase: 'Para mostrar Surpresa, abra bem os olhos e a boca ao mesmo tempo, como se você viu algo incrível! 😮',
+  },
+  fear: {
+    image: '/hints/emotions/fear.jpg',
+    phrase: 'Para mostrar Medo, levante as sobrancelhas, abra os olhos bem grandes e tensione o rosto. 😨',
+  },
+  disgust: {
+    image: '/hints/emotions/disgust.jpg',
+    phrase: 'Para mostrar Nojo, enrugue o nariz para cima e torça o canto da boca, como se cheirasse algo ruim! 🤢',
+  },
+};
+
+const MOTIVATIONAL_PHRASES = [
+  'Incrível! Continue assim! 🚀',
+  'Você está indo muito bem! 💪',
+  'Parabéns! Vamos para o próximo desafio! 🎯',
+  'Que demais! Você arrasou! 🌟',
+  'Sensacional! Seu esforço está valendo! 🏆',
+  'Ótimo trabalho! Cada vez melhor! 🎉',
+];
+
 export const ExpressionGame = ({ onComplete, level = 'easy' }) => {
-  const { userData } = useApp();
+  const { userData, fetchPoints, addPoints } = useApp();
 
   // Refs
   const videoRef = useRef(null);
@@ -66,6 +104,7 @@ export const ExpressionGame = ({ onComplete, level = 'easy' }) => {
   const [phaseStartTime, setPhaseStartTime] = useState(null);
   const [flashActive, setFlashActive] = useState(false);
   const challengeStartTimeRef = useRef(null); // Cronômetro por emoção individual
+  const [earnedScore, setEarnedScore] = useState(null); // Pontos ganhos
 
   // Inicializar webcam
   useEffect(() => {
@@ -185,6 +224,14 @@ export const ExpressionGame = ({ onComplete, level = 'easy' }) => {
 
       const analysisResults = await emotionService.batchAnalyzeEmotions(payload);
 
+      // Capturar score retornado pelo backend
+      const gained = analysisResults?.score ?? analysisResults?.points ?? null;
+      if (gained != null) {
+        setEarnedScore(gained);
+        addPoints(gained);
+        if (userData?.id) fetchPoints(userData.id);
+      }
+
       const processedResults = processAnalysisResults(analysisResults);
       setResults(processedResults);
       setGameComplete(true);
@@ -237,10 +284,22 @@ export const ExpressionGame = ({ onComplete, level = 'easy' }) => {
 
   // Tela de resultados
   if (gameComplete && results) {
+    const motPhrase = MOTIVATIONAL_PHRASES[Math.floor(Math.random() * MOTIVATIONAL_PHRASES.length)];
     return (
       <div className="expression-game-container">
         <div className="game-results">
           <h2>🎉 Desafio Concluído!</h2>
+
+          {earnedScore != null && (
+            <div className="score-earned-banner">
+              <span className="score-earned-icon">⭐</span>
+              <span className="score-earned-text">
+                Muito bem! Você ganhou <strong>+{earnedScore} pontos!</strong>
+              </span>
+            </div>
+          )}
+
+          <p className="motivational-message">{motPhrase}</p>
 
           <div className="results-summary">
             <div className="result-stat">
@@ -288,6 +347,18 @@ export const ExpressionGame = ({ onComplete, level = 'easy' }) => {
                     <div className={`result-status ${result.isCorrect ? 'status-correct' : 'status-incorrect'}`}>
                       {result.isCorrect ? '✓ Correto' : '✗ Incorreto'}
                     </div>
+                    {!result.isCorrect && EMOTION_HINTS[result.targetEmotion] && (
+                      <div className="emotion-hint-feedback">
+                        <img
+                          src={EMOTION_HINTS[result.targetEmotion].image}
+                          alt={`Referência para ${emotionData.ptBR}`}
+                          className="hint-reference-image"
+                        />
+                        <p className="hint-motivational-phrase">
+                          💡 {EMOTION_HINTS[result.targetEmotion].phrase}
+                        </p>
+                      </div>
+                    )}
                   </div>
                 );
               })}
@@ -328,7 +399,10 @@ export const ExpressionGame = ({ onComplete, level = 'easy' }) => {
       )}
 
       <div className="expression-game-header">
-        <h2><img src="/icons/challenges/expression.png" alt="" className="game-title-icon" /> Expressar Emoções</h2>
+        <div className="expression-game-header-top">
+          <h2><img src="/icons/challenges/expression.png" alt="" className="game-title-icon" /> Expressar Emoções</h2>
+          <ColorblindToggle variant="dark" />
+        </div>
         <div className="progress">
           <span className="progress-text">{currentEmotionIndex + 1}/6</span>
           <div className="progress-bar">

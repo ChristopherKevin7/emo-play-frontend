@@ -1,0 +1,78 @@
+/* ===== TOGGLE DALTÔNICO — compartilhado entre páginas ===== */
+.colorblind-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 10px 16px;
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  user-select: none;
+  transition: background 0.2s;
+}
+
+.colorblind-toggle:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.colorblind-toggle input {
+  display: none;
+}
+
+.toggle-slider {
+  width: 44px;
+  height: 24px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  position: relative;
+  transition: background 0.3s;
+  flex-shrink: 0;
+}
+
+.toggle-slider::after {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  background: white;
+  border-radius: 50%;
+  top: 3px;
+  left: 3px;
+  transition: left 0.25s;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+.colorblind-toggle input:checked + .toggle-slider {
+  background: #0077BB;
+}
+
+.colorblind-toggle input:checked + .toggle-slider::after {
+  left: 23px;
+}
+
+.toggle-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: white;
+  white-space: nowrap;
+}
+
+/* Variante escura para headers brancos/claros */
+.colorblind-toggle.dark {
+  background: rgba(0, 0, 0, 0.08);
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
+.colorblind-toggle.dark:hover {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.colorblind-toggle.dark .toggle-slider {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.colorblind-toggle.dark .toggle-label {
+  color: #333;
+}
